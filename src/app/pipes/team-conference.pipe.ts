@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TeamConferencePipe implements PipeTransform {
 
   transform(conference: string): string {
-    if (conference === 'west')
+    if (conference === 'West')
       return 'Western conference';
     else
       return 'Eastern conference'
