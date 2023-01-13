@@ -104,9 +104,21 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "nba-tracking-app"
+  "defaultProject": "nba-tracking-app",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

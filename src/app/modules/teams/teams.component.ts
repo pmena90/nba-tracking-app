@@ -6,11 +6,7 @@ import { TeamsService } from 'src/app/services/teams.service';
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.css']
 })
-export class TeamsComponent implements OnInit {
-  teams$ = this.teamsService.trackedTeams$;
+export class TeamsComponent {
   constructor(private teamsService: TeamsService) { }
-
-  ngOnInit(): void {
-  }
-
+  teams$ = this.teamsService.trackedTeams$;
 }
