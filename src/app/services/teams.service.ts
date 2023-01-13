@@ -24,15 +24,11 @@ export class TeamsService {
     .pipe(startWith({ op: 'add', id: 0 }));
 
   selectedTeams: Team[] = [];
-  private teamsListSubject = new BehaviorSubject<Team[]>(this.selectedTeams);
-  teamsListStream$ = this.teamsListSubject.asObservable();
 
   constructor(private http: HttpService, private gamesService: GamesService) { }
 
   getTeams(): Observable<Team[]> {
     const apiUrl = `${this.apiUrl}/teams`;
-
-    console.log('getTeams call');
 
     return this.http.get<IResponse<Team[]>>(apiUrl).pipe(
       map(result => result.data ? result.data : []),
@@ -61,13 +57,6 @@ export class TeamsService {
     }
   }
 
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = err.message;
-    console.error(errorMessage);
-  }
-
-  private unTrackTeamSubject = new Subject<Op>();
-  unTrackTeamStream$: Observable<Op> = this.unTrackTeamSubject.asObservable();
 
   trackedTeams$ = combineLatest([
     this.getTeams(),
@@ -86,11 +75,15 @@ export class TeamsService {
       return this.selectedTeams;
 
     }),
-
     catchError(err => {
       this.handleError(err);
       return EMPTY
     }),
   );
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage = err.message;
+    console.error(errorMessage);
+  }
 
 }
