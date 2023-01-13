@@ -1,0 +1,14 @@
+<form class="row g-3" [formGroup]="form">
+    <div class="col-auto">
+        <select formControlName="teamInput" #teamInput *ngIf="teams$ | async as teams" class="form-select"
+            id="teamInput">
+            <option value="">Select a team</option>
+            <option *ngFor="let team of teams" value="{{team.id}}" selected>{{team.full_name}}</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button id="trackBtn" type="submit" class="btn btn-primary mb-3" (click)="trackTeam()"
+            [disabled]="form.invalid">Track
+            team</button>
+    </div>
+</form>

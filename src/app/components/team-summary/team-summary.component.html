@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h5 class="card-title">{{team | teamName}}</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="remove(team.id)"
+                id="remove{{team.abbreviation}}"></button>
+        </div>
+        <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference}} conference</h6>
+        <div class="card-content">
+            <div class="col-6">
+                <span>Result of the past 12 games:</span>
+                <div class="games-summary">
+                    <span *ngFor="let r of latestResultsArray" [ngClass]="{red : r === 'L'}"
+                        class="rounded-circle">{{r}}</span>
+                </div>
+                <p>Avg pts scored: <strong>{{avPointsScored}}</strong></p>
+                <p>Avg pts conceded: <strong>{{avPointsAllowed}}</strong></p>
+
+            </div>
+            <div class="img col-6">
+                <img src="{{team.img}}" alt="logo" class="img-fluid">
+            </div>
+        </div>
+        <button class="btn btn-primary" id="results{{team.abbreviation}}">See game results >></button>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+.card-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-subtitle {
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+}
+
+.card-content {
+    display: flex;
+    font-size: 12px;
+
+}
+
+.games-summary {
+    display: flex;
+    margin: 5px 0;
+}
+
+.games-summary span {
+    text-align: center;
+    line-height: 1.5rem;
+    width: 25px;
+    height: 25px;
+    background-color: green;
+    margin-right: 5px;
+    color: white;
+}
+
+.games-summary span.red {
+    background-color: red;
+}
+
+.btn {
+    margin-top: 10px;
+}

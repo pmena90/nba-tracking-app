@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://free-nba.p.rapidapi.com',
+  apiKey: '2QMXSehDLSmshDmRQcKUIAiQjIZAp1UvKUrjsnewgqSP6F5oBX',
+  apiHost: 'free-nba.p.rapidapi.com',
+  imgBaseUrl: 'https://interstate21.com/nba-logos/'
 };
 
 /*
