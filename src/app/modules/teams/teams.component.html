@@ -5,7 +5,7 @@
 </div>
 <div *ngIf="teams$ | async as teams" class="container">
     <div class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" *ngFor="let team of teams">
+        <div class="col-12 col-md-6 col-lg-4 card-container" *ngFor="let team of teams">
             <app-team-summary [team]="team"></app-team-summary>
         </div>
     </div>

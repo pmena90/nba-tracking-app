@@ -15,11 +15,11 @@
 }
 
 .games-summary {
-    display: flex;
+    display: inline-block;
     margin: 5px 0;
 }
 
-.games-summary span {
+.games-summary div {
     text-align: center;
     line-height: 1.5rem;
     width: 25px;
@@ -27,9 +27,12 @@
     background-color: green;
     margin-right: 5px;
     color: white;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
-.games-summary span.red {
+.games-summary div.red {
     background-color: red;
 }
 

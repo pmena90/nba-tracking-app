@@ -1,0 +1,29 @@
+<div *ngIf="team !== undefined && games" class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h5 class="card-title">{{team.full_name | teamName : team.abbreviation}}</h5>
+        </div>
+        <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference | teamConference}}</h6>
+        <div class="card-content">
+            <div class="col-12">
+                <span>Scores of the past 12 games:</span>
+                <div class="games-summary">
+                    <div *ngFor="let game of games">
+                        <strong>{{ game.home_team.abbreviation }}</strong>
+                        <span>
+                            {{game.home_team_score}}
+                        </span>
+                        -
+                        <span>
+                            {{game.visitor_team_score}}
+                        </span>
+                        <strong>{{ game.visitor_team.abbreviation }}</strong>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success" id="backBtn" (click)="back()">
+            << Back to all team stats</button>
+    </div>
+</div>

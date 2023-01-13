@@ -10,7 +10,7 @@ import { TeamsService } from 'src/app/services/teams.service';
   styleUrls: ['./teams-selector.component.css']
 })
 export class TeamsSelectorComponent implements OnInit {
-  teams$!: Observable<Team[]>;
+
 
   form = new FormGroup({
     teamInput: new FormControl('', Validators.required),
@@ -18,9 +18,9 @@ export class TeamsSelectorComponent implements OnInit {
 
   constructor(private teamsService: TeamsService) { }
 
+  teams$ = this.teamsService.getTeams();
 
   ngOnInit(): void {
-    this.teams$ = this.teamsService.getTeams();
   }
 
   trackTeam() {

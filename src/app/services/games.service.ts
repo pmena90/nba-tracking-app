@@ -27,6 +27,9 @@ export class GamesService {
 
     return this.http.get<IResponse<Game[]>>(apiUrl, params).pipe(
       map(result => result.data ? result.data : []),
+      map(games => games.sort((a, b) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      )),
       catchError(err => {
         this.handleError(err);
         return EMPTY;

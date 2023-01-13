@@ -1,7 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, retry, Subscription } from 'rxjs';
 import { Game } from 'src/app/entities/game';
 import { Team } from 'src/app/entities/team';
+import DateHelper from 'src/app/helpers/dates.helper';
 import { GamesService } from 'src/app/services/games.service';
 import { TeamsService } from 'src/app/services/teams.service';
 
@@ -17,15 +19,22 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
   avPointsScored = 0;
   avPointsAllowed = 0;
   sub!: Subscription;
-  constructor(private teamService: TeamsService, private gamesService: GamesService) { }
+
+  constructor(
+    private teamService: TeamsService,
+    private gamesService: GamesService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    const gameDates: Date[] = this.getLast12Date();
+    const gameDates: Date[] = DateHelper.getLast12Date();
     const teamId = this.team.id;
     this.sub = this.gamesService.getGamesByTeamPerDates([teamId], gameDates).subscribe({
       next: games => {
         this.games = games;
         this.latestResultsArray = this.getLastResults();
+        this.avPointsAllowed = this.getAllowedAVG(teamId, games);
+        this.avPointsScored = this.getScoredAVG(teamId, games);
       }
     });
   }
@@ -34,13 +43,17 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
     this.teamService.unTrackTeam(teamId);
   }
 
+  navigateToResults(abbreviation: string) {
+    this.router.navigate([`results/${abbreviation}`])
+  }
+
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if (this.sub) this.sub.unsubscribe();
   }
 
   private getLastResults(): string[] {
     return this.games.map(g => {
-      const isLocal = g.home_team.id == this.team.id;
+      const isLocal = this.isLocal(this.team.id, g);
       if (isLocal && g.home_team_score > g.visitor_team_score)
         return 'W';
       if (!isLocal && g.home_team_score < g.visitor_team_score)
@@ -49,22 +62,36 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getLast12Date() {
-    let currentDate = new Date();
-    let endDate = new Date();
-    endDate = new Date(endDate.setDate(currentDate.getDate() - 12));
-    return this.getDates(currentDate, endDate);
+  private getScoredAVG(id: number, games: Game[]): number {
+    let scored = 0;
+    games.forEach(g => {
+      if (this.isLocal(id, g)) {
+        scored += g.home_team_score;
+      } else {
+        scored += g.visitor_team_score;
+      }
+    })
+
+    const total = games.length;
+    return Math.round(scored / total);
   }
 
-  private getDates(startDate: Date, stopDate: Date) {
-    let dateArray: Date[] = new Array();
-    let currentDate = startDate;
-    while (currentDate > stopDate) {
-      dateArray.push(new Date(currentDate));
-      currentDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
+  private getAllowedAVG(id: number, games: Game[]): number {
+    let allowed = 0;
+    games.forEach(g => {
+      if (this.isLocal(id, g)) {
+        allowed += g.visitor_team_score;
+      } else {
+        allowed += g.home_team_score;
+      }
+    })
 
-    }
-    return dateArray;
+    const total = games.length;
+    return Math.round(allowed / total);
+
   }
 
+  private isLocal(id: number, game: Game) {
+    return game.home_team.id == id;
+  }
 }

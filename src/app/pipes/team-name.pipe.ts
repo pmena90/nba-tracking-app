@@ -6,8 +6,8 @@ import { Team } from '../entities/team';
 })
 export class TeamNamePipe implements PipeTransform {
 
-  transform(team: Team): string {
-    return `${team.full_name} [${team.abbreviation}]`;
+  transform(teamFullName: string, teamAbbreviation: string): string {
+    return `${teamFullName} [${teamAbbreviation}]`;
   }
 
 }

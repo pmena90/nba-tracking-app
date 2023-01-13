@@ -1,18 +1,19 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title">
-            <h5 class="card-title">{{team | teamName}}</h5>
+            <h5 class="card-title">{{team.full_name | teamName : team.abbreviation}}</h5>
             <button type="button" class="btn-close" aria-label="Close" (click)="remove(team.id)"
                 id="remove{{team.abbreviation}}"></button>
         </div>
-        <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference}} conference</h6>
+        <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference | teamConference}}</h6>
         <div class="card-content">
             <div class="col-6">
                 <span>Result of the past 12 games:</span>
                 <div class="games-summary">
-                    <span *ngFor="let r of latestResultsArray" [ngClass]="{red : r === 'L'}"
-                        class="rounded-circle">{{r}}</span>
+                    <div *ngFor="let r of latestResultsArray" [ngClass]="{red : r === 'L'}" class="rounded-circle">{{r}}
+                    </div>
                 </div>
+                <br />
                 <p>Avg pts scored: <strong>{{avPointsScored}}</strong></p>
                 <p>Avg pts conceded: <strong>{{avPointsAllowed}}</strong></p>
 
@@ -21,6 +22,7 @@
                 <img src="{{team.img}}" alt="logo" class="img-fluid">
             </div>
         </div>
-        <button class="btn btn-primary" id="results{{team.abbreviation}}">See game results >></button>
+        <button class="btn btn-primary" id="results{{team.abbreviation}}"
+            (click)="navigateToResults(team.abbreviation)">See game results >></button>
     </div>
 </div>
