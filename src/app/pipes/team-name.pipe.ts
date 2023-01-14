@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Team } from '../entities/team';
 
 @Pipe({
   name: 'teamName'

@@ -1,11 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, retry, Subscription } from 'rxjs';
-import { Game } from 'src/app/entities/game';
-import { Team } from 'src/app/entities/team';
+import { Subscription } from 'rxjs';
+import { Game, Team } from 'src/app/entities';
 import DateHelper from 'src/app/helpers/dates.helper';
-import { GamesService } from 'src/app/services/games.service';
-import { TeamsService } from 'src/app/services/teams.service';
+import { GamesService, TeamsService } from 'src/app/services';
 
 @Component({
   selector: 'app-team-summary[team]',
@@ -16,8 +14,8 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
   @Input() team!: Team;
   games!: Game[];
   latestResultsArray: string[] = [];
-  avPointsScored = 0;
-  avPointsAllowed = 0;
+  avPointsScored: number = 0;
+  avPointsAllowed: number = 0;
   sub!: Subscription;
 
   constructor(
@@ -28,7 +26,7 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const gameDates: Date[] = DateHelper.getLast12Date();
-    const teamId = this.team.id;
+    const teamId: number = this.team.id;
     this.sub = this.gamesService.getGamesByTeamPerDates([teamId], gameDates).subscribe({
       next: games => {
         this.games = games;
@@ -53,7 +51,7 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
 
   private getLastResults(): string[] {
     return this.games.map(g => {
-      const isLocal = this.isLocal(this.team.id, g);
+      const isLocal: boolean = this.isLocal(this.team.id, g);
       if (isLocal && g.home_team_score > g.visitor_team_score)
         return 'W';
       if (!isLocal && g.home_team_score < g.visitor_team_score)
@@ -63,7 +61,7 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
   }
 
   private getScoredAVG(id: number, games: Game[]): number {
-    let scored = 0;
+    let scored: number = 0;
     games.forEach(g => {
       if (this.isLocal(id, g)) {
         scored += g.home_team_score;
@@ -72,12 +70,12 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
       }
     })
 
-    const total = games.length;
+    const total: number = games.length;
     return Math.round(scored / total);
   }
 
   private getAllowedAVG(id: number, games: Game[]): number {
-    let allowed = 0;
+    let allowed: number = 0;
     games.forEach(g => {
       if (this.isLocal(id, g)) {
         allowed += g.visitor_team_score;
@@ -86,7 +84,7 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
       }
     })
 
-    const total = games.length;
+    const total: number = games.length;
     return Math.round(allowed / total);
 
   }

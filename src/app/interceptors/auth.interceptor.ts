@@ -10,8 +10,8 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private readonly apiKey = environment.apiKey;
-  private readonly apiHost = environment.apiHost;
+  private readonly apiKey: string = environment.apiKey;
+  private readonly apiHost: string = environment.apiHost;
 
   constructor() { }
 

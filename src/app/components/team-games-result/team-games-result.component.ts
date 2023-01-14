@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { map, Subscription, switchMap, tap } from 'rxjs';
-import { Game } from 'src/app/entities/game';
-import { Team } from 'src/app/entities/team';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Subscription, mergeMap } from 'rxjs';
+import { Game, Team } from 'src/app/entities';
 import DateHelper from 'src/app/helpers/dates.helper';
-import { GamesService } from 'src/app/services/games.service';
+import { GamesService } from 'src/app/services';
 
 @Component({
   selector: 'app-team-games-result',
@@ -14,8 +13,7 @@ import { GamesService } from 'src/app/services/games.service';
 export class TeamGamesResultComponent implements OnInit, OnDestroy {
   team: Team | undefined;
   games!: Game[];
-  sub1!: Subscription;
-  sub2!: Subscription;
+  sub!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,24 +24,20 @@ export class TeamGamesResultComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const gameDates: Date[] = DateHelper.getLast12Date();
 
-    this.sub1 = this.route.data.pipe(
+    this.sub = this.route.data.pipe(
       map(data => data['team'] as Team),
-    ).subscribe(team => {
-      this.team = team;
-      this.sub2 = this.gamesService.getGamesByTeamPerDates([this.team.id], gameDates).pipe(
-        tap(games => console.log(games))
-      )
-        .subscribe(
-          games => this.games = games
-        )
-    });
+      map(team => {
+        this.team = team;
+        return team;
+      }),
+      mergeMap(team => this.gamesService.getGamesByTeamPerDates([team.id], gameDates))
+    ).subscribe(games => this.games = games)
   }
 
   back() {
     this.router.navigate(['/']);
   }
   ngOnDestroy(): void {
-    if (this.sub1) this.sub1.unsubscribe();
-    if (this.sub2) this.sub2.unsubscribe();
+    if (this.sub) this.sub.unsubscribe();
   }
 }

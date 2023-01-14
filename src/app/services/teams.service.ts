@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, combineLatest, EMPTY, map, Observable, tap, startWith, Subject, BehaviorSubject, of, switchMap, share } from 'rxjs';
+import { catchError, combineLatest, EMPTY, map, Observable, startWith, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IResponse } from '../Interfaces/IResponse';
-import { Team } from '../entities/team';
-import { HttpService } from './http.service';
-import { GamesService } from './games.service';
+import { Team } from '../entities';
+import { HttpService, GamesService } from './';
 
 interface Op {
   op: 'add' | 'remove';
@@ -63,14 +62,14 @@ export class TeamsService {
     this.teamSelectedStream$
   ]).pipe(
     map(([teams, op]) => {
-      const team = teams.filter(t => t.id == op.id)
-      if (team[0] && op.op === 'add') {
-        this.selectedTeams.push(team[0]);
+      const team = teams.find(t => t.id == op.id)
+      if (team && op.op === 'add') {
+        this.selectedTeams.push(team);
       }
-      if (team[0] && op.op === 'remove') {
-        const index = this.selectedTeams.indexOf(team[0]);
-        console.log(index);
-        this.selectedTeams.splice(index, 1);
+      if (team && op.op === 'remove') {
+        const index = this.selectedTeams.findIndex(i => i.id === team.id);
+        if (index !== -1)
+          this.selectedTeams.splice(index, 1);
       }
       return this.selectedTeams;
 

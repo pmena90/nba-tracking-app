@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   Router, Resolve,
-  RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import { map, Observable, of } from 'rxjs';
-import { Team } from '../entities/team';
-import { TeamsService } from '../services/teams.service';
+import { map, Observable } from 'rxjs';
+import { Team } from '../entities';
+import { TeamsService } from '../services';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +13,8 @@ import { TeamsService } from '../services/teams.service';
 export class TeamResolver implements Resolve<Team | null> {
   constructor(private teamsService: TeamsService, private router: Router) { }
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<Team | null> {
-    let abbreviation = route.paramMap.get('teamCode') ?? '';
+  resolve(route: ActivatedRouteSnapshot): Observable<Team | null> {
+    let abbreviation: string = route.paramMap.get('teamCode') ?? '';
     return this.teamsService.getTeams().pipe(
       map(teams => teams.find(t => t.abbreviation == abbreviation)),
       map(team => {

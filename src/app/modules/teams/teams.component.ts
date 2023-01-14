@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { TeamsService } from 'src/app/services/teams.service';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Team } from 'src/app/entities';
+import { TeamsService } from 'src/app/services';
 
 @Component({
   selector: 'app-teams',
@@ -8,5 +10,5 @@ import { TeamsService } from 'src/app/services/teams.service';
 })
 export class TeamsComponent {
   constructor(private teamsService: TeamsService) { }
-  teams$ = this.teamsService.trackedTeams$;
+  teams$: Observable<Team[]> = this.teamsService.trackedTeams$;
 }
