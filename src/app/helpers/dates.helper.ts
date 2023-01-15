@@ -6,7 +6,7 @@ export default class DateHelper {
         return DateHelper.getDates(currentDate, endDate);
     }
 
-    static getDates(startDate: Date, stopDate: Date): Date[] {
+    private static getDates(startDate: Date, stopDate: Date): Date[] {
         let dateArray: Date[] = new Array();
         let currentDate: Date = startDate;
         while (currentDate > stopDate) {
