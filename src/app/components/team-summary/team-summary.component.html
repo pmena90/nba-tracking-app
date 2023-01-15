@@ -8,7 +8,7 @@
         <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference | teamConference}}</h6>
         <div class="card-content">
             <div class="col-6">
-                <span>Result of the past 12 games:</span>
+                <span>Result of the past 12 days:</span>
                 <div class="games-summary">
                     <div *ngFor="let r of latestResultsArray" [ngClass]="{red : r === 'L'}" class="rounded-circle">{{r}}
                     </div>
