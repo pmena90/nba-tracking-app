@@ -37,6 +37,7 @@ export class TeamGamesResultComponent implements OnInit, OnDestroy {
   back() {
     this.router.navigate(['/']);
   }
+
   ngOnDestroy(): void {
     if (this.sub) this.sub.unsubscribe();
   }

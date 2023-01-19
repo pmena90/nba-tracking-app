@@ -42,7 +42,7 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
   }
 
   navigateToResults(abbreviation: string) {
-    this.router.navigate([`results/${abbreviation}`])
+    this.router.navigate(['results', abbreviation])
   }
 
   ngOnDestroy(): void {
