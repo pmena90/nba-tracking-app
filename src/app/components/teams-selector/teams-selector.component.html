@@ -1,9 +1,29 @@
 <form class="row g-3" [formGroup]="form">
     <div class="col-auto">
+        <select formControlName="conferenceSelector" #conferenceSelector (change)="onConferenceChange()"
+            class="form-select" id="conferenceSelector">
+            <option value="" selected>Select a conference</option>
+            <option *ngFor="let conference of conferences" [value]="conference">
+                {{conference | teamConference}}
+            </option>
+        </select>
+    </div>
+    <div class=" col-auto">
+        <select formControlName="divisionSelector" #divisionSelector (change)="onDivisionChange()" class="form-select"
+            id="divisionSelector">
+            <option value="">Select a division</option>
+            <option *ngFor="let division of divisions" value="{{division}}">
+                {{division | teamDivision}}
+            </option>
+        </select>
+    </div>
+    <div class="col-auto">
         <select formControlName="teamInput" #teamInput *ngIf="teams$ | async as teams" class="form-select"
             id="teamInput">
             <option value="">Select a team</option>
-            <option *ngFor="let team of teams" value="{{team.id}}" selected>{{team.full_name}}</option>
+            <option *ngFor="let team of teams" value="{{team.id}}" selected>
+                {{team.full_name}}
+            </option>
         </select>
     </div>
     <div class="col-auto">

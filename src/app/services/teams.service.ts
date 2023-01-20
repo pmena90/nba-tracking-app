@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, combineLatest, EMPTY, map, Observable, startWith, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, map, Observable, startWith, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IResponse } from '../Interfaces/IResponse';
-import { Team } from '../entities';
+import { ConferenceEnum, Team } from '../entities';
 import { HttpService, GamesService } from './';
 
 interface Op {
@@ -23,6 +23,12 @@ export class TeamsService {
     .pipe(startWith({ op: 'add', id: 0 }));
 
   selectedTeams: Team[] = [];
+
+  private changeSelectedConferenceSubject = new BehaviorSubject<string>(ConferenceEnum.West);
+  changeSelectedConferenceStream$ = this.changeSelectedConferenceSubject.asObservable();
+
+  private changeSelectedDivisionSubject = new BehaviorSubject<string>("");
+  changeSelectedDivisionStream$ = this.changeSelectedDivisionSubject.asObservable();
 
   constructor(private http: HttpService, private gamesService: GamesService) { }
 
@@ -56,6 +62,14 @@ export class TeamsService {
     }
   }
 
+  changeFilterConference(conference: string) {
+    this.changeSelectedConferenceSubject.next(conference);
+  }
+
+  changeFilterDivision(division: string) {
+    this.changeSelectedDivisionSubject.next(division);
+  }
+
 
   trackedTeams$ = combineLatest([
     this.getTeams(),
@@ -78,6 +92,18 @@ export class TeamsService {
       this.handleError(err);
       return EMPTY
     }),
+  );
+
+  filteredTeams$ = combineLatest([
+    this.getTeams(),
+    this.changeSelectedConferenceStream$,
+    this.changeSelectedDivisionStream$
+  ]).pipe(
+    map(([teams, conference, division]) => {
+      return teams
+        .filter(t => conference !== "" ? t.conference === conference : true)
+        .filter(t => division !== "" ? t.division === division : true);
+    })
   );
 
   private handleError(err: HttpErrorResponse) {
