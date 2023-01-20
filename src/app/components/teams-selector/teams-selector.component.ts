@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { throws } from 'assert';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { WestDivisionEnum, Team, ConferenceEnum, EastDivisionEnum } from 'src/app/entities';
 import { TeamsService } from 'src/app/services';
 
@@ -10,44 +9,40 @@ import { TeamsService } from 'src/app/services';
   templateUrl: './teams-selector.component.html',
   styleUrls: ['./teams-selector.component.css']
 })
-export class TeamsSelectorComponent implements OnInit {
-  form: FormGroup = new FormGroup({
-    teamInput: new FormControl('', Validators.required),
-    conferenceSelector: new FormControl(''),
-    divisionSelector: new FormControl(''),
-  });
-
+export class TeamsSelectorComponent implements OnInit, AfterViewInit {
   conferences: string[] = Object.keys(ConferenceEnum);
   eastDivisions: string[] = Object.keys(EastDivisionEnum);
   westDivisions: string[] = Object.keys(WestDivisionEnum);
-  divisions: string[] = [...this.eastDivisions, ...this.westDivisions];
+  // divisions: string[] = [...this.eastDivisions, ...this.westDivisions];
+  divisions!: string[];
+  form!: FormGroup;
 
-  constructor(private teamsService: TeamsService) {
-    console.log(this.conferences);
+  constructor(private teamsService: TeamsService, private cd: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      teamInput: new FormControl('', Validators.required),
+      conferenceSelector: new FormControl(''),
+      divisionSelector: new FormControl(''),
+    });
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   teams$: Observable<Team[]> = this.teamsService.filteredTeams$;
-  // selectedConferece$!: Observable<string>;
-  selectedConferece$ = this.teamsService.changeSelectedConferenceStream$;
-  selectedDivision$ = this.teamsService.changeSelectedDivisionStream$;
-
-  ngOnInit(): void {
-    // this.selectedConferece$ = this.teamsService.changeSelectedConferenceStream$;
-
-    this.selectedConferece$.subscribe(c => {
-      this.form.patchValue({
-        conferenceSelector: c
-      });
-      this.setDivisionValues(c);
-    });
-
-    this.selectedDivision$.subscribe(d => {
-      this.form.patchValue({
-        divisionSelector: d
-      })
+  selectedConferece$ = this.teamsService.changeSelectedConferenceStream$.pipe(
+    tap(conference => {
+      this.form.patchValue({ conferenceSelector: conference });
+      this.setDivisionValues(conference)
     })
-
-  }
+  );
+  selectedDivision$ = this.teamsService.changeSelectedDivisionStream$.pipe(
+    tap(division => {
+      this.form.patchValue({ divisionSelector: division });
+    })
+  );
 
   trackTeam() {
     const id: number = +this.form.value.teamInput;
@@ -59,6 +54,7 @@ export class TeamsSelectorComponent implements OnInit {
     this.setDivisionValues(conference);
 
     this.teamsService.changeFilterConference(conference);
+    this.teamsService.changeFilterDivision("");
   }
 
   setDivisionValues(conference: string) {
@@ -74,7 +70,6 @@ export class TeamsSelectorComponent implements OnInit {
   }
 
   onDivisionChange() {
-    console.log(this.form.value['divisionSelector']);
     this.teamsService.changeFilterDivision(this.form.value['divisionSelector']);
   }
 

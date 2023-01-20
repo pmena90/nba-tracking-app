@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { IResponse } from '../Interfaces/IResponse';
 import { Game } from '../entities/game';
 import { HttpService } from './http.service';
+import DateHelper from '../helpers/dates.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,13 @@ export class GamesService {
     this.changeDaysSubject.next(days);
   }
 
-  getGamesByTeamPerDates(teamIds: number[], dates: Date[]): Observable<Game[]> {
+  getGamesByTeamPerDates(teamIds: number[], dates: number): Observable<Game[]> {
+    const gameDates: Date[] = DateHelper.getLastDates(dates);
+
     const apiUrl = `${this.apiUrl}/games`;
 
     let params = new HttpParams();
-    dates.forEach(date => {
+    gameDates.forEach(date => {
       params = params.append('dates[]', date.toDateString());
     });
     teamIds.forEach(id => {

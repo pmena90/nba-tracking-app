@@ -3,7 +3,8 @@
         <select formControlName="conferenceSelector" #conferenceSelector (change)="onConferenceChange()"
             class="form-select" id="conferenceSelector">
             <option value="" selected>Select a conference</option>
-            <option *ngFor="let conference of conferences" [value]="conference">
+            <option *ngFor="let conference of conferences" [ngValue]="conference"
+                [selected]="(selectedConferece$ | async) === conference ? true : null">
                 {{conference | teamConference}}
             </option>
         </select>
@@ -12,7 +13,8 @@
         <select formControlName="divisionSelector" #divisionSelector (change)="onDivisionChange()" class="form-select"
             id="divisionSelector">
             <option value="">Select a division</option>
-            <option *ngFor="let division of divisions" value="{{division}}">
+            <option *ngFor="let division of divisions" value="{{division}}"
+                [selected]="(selectedDivision$ | async) === division ? true : null">
                 {{division | teamDivision}}
             </option>
         </select>

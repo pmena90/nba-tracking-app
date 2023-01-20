@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, mergeMap, Subscription } from 'rxjs';
 import { Game, Team } from 'src/app/entities';
-import DateHelper from 'src/app/helpers/dates.helper';
 import { GamesService, TeamsService } from 'src/app/services';
 
 @Component({
@@ -31,9 +30,7 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
     this.sub = this.days$.pipe(
       map(days => days),
       mergeMap(days => {
-        const gameDates: Date[] = DateHelper.getLastDates(days);
-
-        return this.gamesService.getGamesByTeamPerDates([teamId], gameDates)
+        return this.gamesService.getGamesByTeamPerDates([teamId], days)
       })
     ).subscribe({
       next: games => {
@@ -44,7 +41,6 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   changeNumberOfDates(numberOfDates: number) {
     this.gamesService.changeDays(numberOfDates);

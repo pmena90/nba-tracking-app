@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Subscription, mergeMap, concat, concatMap } from 'rxjs';
 import { Game, Team } from 'src/app/entities';
-import DateHelper from 'src/app/helpers/dates.helper';
 import { GamesService } from 'src/app/services';
 
 @Component({
@@ -31,16 +30,9 @@ export class TeamGamesResultComponent implements OnInit, OnDestroy {
       mergeMap(team => {
         return this.gamesService.changeDaysStream$.pipe(
           mergeMap(days => {
-            const gameDates: Date[] = DateHelper.getLastDates(days);
-            return this.gamesService.getGamesByTeamPerDates([team.id], gameDates)
+            return this.gamesService.getGamesByTeamPerDates([team.id], days)
           }));
-        // return [team as Team, days];
       }),
-      // mergeMap(([team, days]) => {
-
-      //   return this.gamesService.getGamesByTeamPerDates([team.id], gameDates)
-      // })
-      // mergeMap(team => this.gamesService.getGamesByTeamPerDates([team.id], gameDates))
     ).subscribe(games => this.games = games)
   }
 
