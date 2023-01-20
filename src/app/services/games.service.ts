@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IResponse } from '../Interfaces/IResponse';
 import { Game } from '../entities/game';
@@ -12,7 +12,14 @@ import { HttpService } from './http.service';
 export class GamesService {
   private readonly apiUrl = environment.apiUrl;
 
+  private changeDaysSubject = new BehaviorSubject<number>(12);
+  changeDaysStream$ = this.changeDaysSubject.asObservable();
+
   constructor(private http: HttpService) { }
+
+  changeDays(days: number) {
+    this.changeDaysSubject.next(days);
+  }
 
   getGamesByTeamPerDates(teamIds: number[], dates: Date[]): Observable<Game[]> {
     const apiUrl = `${this.apiUrl}/games`;

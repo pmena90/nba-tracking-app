@@ -2,14 +2,15 @@
     <div class="card-body">
         <div class="card-title">
             <h5 class="card-title">{{team.full_name | teamName : team.abbreviation}}</h5>
-            <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn-close"
-                aria-label="Close" id="remove{{team.abbreviation}}"></button>
+            <button data-bs-toggle="modal" attr.data-bs-target="#exampleModal{{team.id}}" type="button"
+                class="btn-close" aria-label="Close" id="remove{{team.abbreviation}}"></button>
             <!-- (click)="remove(team.id)" -->
         </div>
         <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference | teamConference}}</h6>
         <div class="card-content">
             <div class="col-6">
-                <span>Result of the past 12 days:</span>
+                <app-last-days-select [selectedDays]="(days$ | async) || 12"
+                    (daysChanged)="changeNumberOfDates($event)"></app-last-days-select>
                 <div class="games-summary">
                     <div *ngFor="let r of latestResultsArray" [ngClass]="{red : r === 'L'}" class="rounded-circle">{{r}}
                     </div>
@@ -28,7 +29,7 @@
     </div>
 </div>
 
-<app-confirmation-modal (confirmationEvent)="remove(team.id)" modalTitle="Remove {{team.full_name}}"
+<app-confirmation-modal [modalId]=team.id (confirmationEvent)="remove(team.id)" modalTitle="Remove {{team.full_name}}"
     btnSubmitClass="btn-danger" closeText="No" yesText="Yes">
     <p body>Are you sure you want to remove this item?</p>
 </app-confirmation-modal>

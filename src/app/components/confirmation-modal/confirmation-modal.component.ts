@@ -10,6 +10,7 @@ export class ConfirmationModalComponent {
   @Input() closeText = "Close";
   @Input() yesText = "Yes";
   @Input() btnSubmitClass = 'btn-primary';
+  @Input() modalId = 1;
   @Output() confirmationEvent = new EventEmitter<null>();
 
   constructor() { }

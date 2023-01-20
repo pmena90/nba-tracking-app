@@ -6,7 +6,8 @@
         <h6 class="card-subtitle mb-2 pb-2 text-muted">{{team.conference | teamConference}}</h6>
         <div class="card-content">
             <div class="col-12">
-                <span>Scores of the past 12 days:</span>
+                <app-last-days-select [selectedDays]="(days$ | async) || 12"
+                    (daysChanged)="changeNumberOfDates($event)"></app-last-days-select>
                 <div class="games-summary">
                     <div *ngFor="let game of games">
                         <strong>{{ game.home_team.abbreviation }}</strong>

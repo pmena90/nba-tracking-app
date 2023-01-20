@@ -1,8 +1,8 @@
 export default class DateHelper {
-    static getLast12Date(): Date[] {
+    static getLastDates(numberOfDates: number): Date[] {
         let currentDate: Date = new Date(new Date().setDate(new Date().getDate() - 1));
         let endDate: Date = new Date();
-        endDate = new Date(endDate.setDate(currentDate.getDate() - 12));
+        endDate = new Date(endDate.setDate(currentDate.getDate() - numberOfDates));
         return DateHelper.getDates(currentDate, endDate);
     }
 
