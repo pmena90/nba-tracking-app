@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, combineLatest, EMPTY, map, Observable, startWith, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IResponse } from '../Interfaces/IResponse';
-import { ConferenceEnum, Team } from '../entities';
-import { HttpService, GamesService } from './';
+import { Team } from '../entities';
+import { HttpService } from './';
 
 interface Op {
   op: 'add' | 'remove';
@@ -24,13 +24,13 @@ export class TeamsService {
 
   selectedTeams: Team[] = [];
 
-  private changeSelectedConferenceSubject = new BehaviorSubject<string>(ConferenceEnum.West);
+  private changeSelectedConferenceSubject = new BehaviorSubject<string>("");
   changeSelectedConferenceStream$ = this.changeSelectedConferenceSubject.asObservable();
 
   private changeSelectedDivisionSubject = new BehaviorSubject<string>("");
   changeSelectedDivisionStream$ = this.changeSelectedDivisionSubject.asObservable();
 
-  constructor(private http: HttpService, private gamesService: GamesService) { }
+  constructor(private http: HttpService) { }
 
   getTeams(): Observable<Team[]> {
     const apiUrl = `${this.apiUrl}/teams`;

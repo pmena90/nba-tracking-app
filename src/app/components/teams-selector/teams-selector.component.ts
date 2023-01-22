@@ -13,7 +13,6 @@ export class TeamsSelectorComponent implements OnInit, AfterViewInit {
   conferences: string[] = Object.keys(ConferenceEnum);
   eastDivisions: string[] = Object.keys(EastDivisionEnum);
   westDivisions: string[] = Object.keys(WestDivisionEnum);
-  // divisions: string[] = [...this.eastDivisions, ...this.westDivisions];
   divisions!: string[];
   form!: FormGroup;
 
@@ -58,14 +57,16 @@ export class TeamsSelectorComponent implements OnInit, AfterViewInit {
   }
 
   setDivisionValues(conference: string) {
-    if (conference == ConferenceEnum.East.toString()) {
-      this.divisions = [...this.eastDivisions];
-    }
-    if (conference == ConferenceEnum.West.toString()) {
-      this.divisions = [...this.westDivisions];
-    }
-    if (conference === "") {
-      this.divisions = [...this.eastDivisions, ...this.westDivisions];
+    switch (conference as ConferenceEnum) {
+      case ConferenceEnum.East:
+        this.divisions = [...this.eastDivisions];
+        break;
+      case ConferenceEnum.West:
+        this.divisions = [...this.westDivisions];
+        break;
+      default:
+        this.divisions = [...this.eastDivisions, ...this.westDivisions];
+        break;
     }
   }
 
