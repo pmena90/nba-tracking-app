@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TeamConferencePipe } from 'src/app/pipes/team-conference.pipe';
+import { TeamDivisionPipe } from 'src/app/pipes/team-division.pipe';
 import { TeamsService } from 'src/app/services';
 
 import { TeamsSelectorComponent } from './teams-selector.component';
@@ -10,7 +12,7 @@ describe('TeamsSelectorComponent', () => {
   let teamService: TeamsService
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TeamsSelectorComponent],
+      declarations: [TeamsSelectorComponent, TeamConferencePipe, TeamDivisionPipe],
       imports: [
         HttpClientTestingModule,
       ]

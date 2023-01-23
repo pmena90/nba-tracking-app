@@ -6,6 +6,9 @@ import { TeamSummaryComponent } from './team-summary/team-summary.component';
 import { TeamNamePipe } from '../pipes/team-name.pipe';
 import { TeamConferencePipe } from '../pipes/team-conference.pipe';
 import { TeamGamesResultComponent } from './team-games-result/team-games-result.component';
+import { TeamDivisionPipe } from '../pipes/team-division.pipe';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { LastDaysSelectComponent } from './last-days-select/last-days-select.component';
 
 
 
@@ -15,8 +18,11 @@ import { TeamGamesResultComponent } from './team-games-result/team-games-result.
     TeamSummaryComponent,
     TeamSummaryComponent,
     TeamNamePipe,
+    TeamDivisionPipe,
     TeamConferencePipe,
-    TeamGamesResultComponent
+    TeamGamesResultComponent,
+    ConfirmationModalComponent,
+    LastDaysSelectComponent
   ],
   imports: [
     CommonModule,

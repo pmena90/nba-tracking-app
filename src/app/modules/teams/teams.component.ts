@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Team } from 'src/app/entities';
 import { TeamsService } from 'src/app/services';
 

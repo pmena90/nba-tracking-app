@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { map, mergeMap, Subscription } from 'rxjs';
 import { Game, Team } from 'src/app/entities';
-import DateHelper from 'src/app/helpers/dates.helper';
 import { GamesService, TeamsService } from 'src/app/services';
 
 @Component({
@@ -24,10 +23,16 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
+  days$ = this.gamesService.changeDaysStream$;
+
   ngOnInit(): void {
-    const gameDates: Date[] = DateHelper.getLast12Date();
     const teamId: number = this.team.id;
-    this.sub = this.gamesService.getGamesByTeamPerDates([teamId], gameDates).subscribe({
+    this.sub = this.days$.pipe(
+      map(days => days),
+      mergeMap(days => {
+        return this.gamesService.getGamesByTeamPerDates([teamId], days)
+      })
+    ).subscribe({
       next: games => {
         this.games = games;
         this.latestResultsArray = this.getLastResults();
@@ -37,12 +42,16 @@ export class TeamSummaryComponent implements OnInit, OnDestroy {
     });
   }
 
+  changeNumberOfDates(numberOfDates: number) {
+    this.gamesService.changeDays(numberOfDates);
+  }
+
   remove(teamId: number) {
     this.teamService.unTrackTeam(teamId);
   }
 
   navigateToResults(abbreviation: string) {
-    this.router.navigate([`results/${abbreviation}`])
+    this.router.navigate(['results', abbreviation])
   }
 
   ngOnDestroy(): void {

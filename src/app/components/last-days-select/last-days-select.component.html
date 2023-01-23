@@ -1,0 +1,7 @@
+<div [formGroup]="form">
+    <span>Result of the past</span>
+    <select class="form-select" (change)="onDaysChange()" formControlName="daySelectorForm">
+        <option *ngFor="let day of days" [value]="day">{{day}}</option>
+    </select>
+    <span>days:</span>
+</div>
