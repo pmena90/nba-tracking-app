@@ -26,7 +26,8 @@ export class TeamConferencePipe implements PipeTransform {
    * @param conference - The conference string to be transformed.
    * @returns The descriptive string representation of the conference.
    */
-  transform(conference: keyof typeof ConferenceMap): string {
-    return ConferenceMap[conference] || '';
+  transform(conference: string): string {
+    const mapped = conference as keyof typeof ConferenceMap;
+    return ConferenceMap[mapped] || '';
   }
 }

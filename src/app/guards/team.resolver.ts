@@ -15,7 +15,7 @@ export class TeamResolver implements Resolve<Team | null> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Team | null> {
     let abbreviation: string = route.paramMap.get('teamCode') ?? '';
-    return this.teamsService.getTeams().pipe(
+    return this.teamsService.teams$.pipe(
       map(teams => teams.find(t => t.abbreviation == abbreviation)),
       map(team => {
         if (team)
