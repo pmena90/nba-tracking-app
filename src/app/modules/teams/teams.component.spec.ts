@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+// import { ComponentsModule } from 'src/app/components/components.module';
 
 import { TeamsComponent } from './teams.component';
 
@@ -13,8 +15,10 @@ describe('TeamsComponent', () => {
       declarations: [TeamsComponent],
       imports: [
         ReactiveFormsModule,
-        HttpClientTestingModule
-      ]
+        HttpClientTestingModule,
+        // ComponentsModule
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
       .compileComponents();
   });

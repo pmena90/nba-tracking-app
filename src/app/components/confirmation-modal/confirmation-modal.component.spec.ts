@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmationModalComponent } from './confirmation-modal.component';
@@ -8,9 +9,9 @@ describe('ConfirmationModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfirmationModalComponent ]
+      declarations: [ConfirmationModalComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

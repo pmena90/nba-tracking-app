@@ -2,8 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
-import { Team } from 'src/app/entities';
+import { Observable, of } from 'rxjs';
+import { Game, Team } from 'src/app/entities';
 import { TeamConferencePipe } from 'src/app/pipes/team-conference.pipe';
 import { TeamNamePipe } from 'src/app/pipes/team-name.pipe';
 import { GamesService, TeamsService } from 'src/app/services';
@@ -12,8 +12,8 @@ import { TeamSummaryComponent } from './team-summary.component';
 describe('TeamSummaryComponent', () => {
   let component: TeamSummaryComponent;
   let team1: Team;
-  let teamServiceMock;
-  let gameServiceMock;
+  let teamServiceMock: jasmine.SpyObj<TeamsService>;
+  let gameServiceMock: jasmine.SpyObj<GamesService>;
   let routerMock;
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('TeamSummaryComponent', () => {
     const games = [
       {
         id: 1,
-        date: Date.now(),
+        date: new Date("12-12-2023"),
         home_team: team1,
         home_team_score: 100,
         period: 4,
@@ -55,7 +55,7 @@ describe('TeamSummaryComponent', () => {
       },
       {
         id: 2,
-        date: Date.now(),
+        date: new Date("12-12-2023"),
         home_team: team1,
         home_team_score: 100,
         period: 4,
@@ -70,8 +70,7 @@ describe('TeamSummaryComponent', () => {
 
     gameServiceMock = jasmine.createSpyObj('GamesService', ['changeDaysStream$', 'getGamesByTeamPerDates']);
     const stubDays = of(12);
-    const stubGames = of(games);
-    gameServiceMock.changeDaysStream$.and.returnValue(stubDays);
+    const stubGames: Observable<Game[]> = of(games);
     gameServiceMock.getGamesByTeamPerDates.and.returnValue(stubGames);
 
     teamServiceMock = jasmine.createSpyObj('TeamsService', ['unTrackTeam']);
@@ -86,7 +85,7 @@ describe('TeamSummaryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init list of games', () => {
+  it('should init list of games (Call gamesServices once)', () => {
     component.ngOnInit();
 
     expect(component.games.length).toBe(2);
@@ -108,5 +107,9 @@ describe('TeamSummaryComponent', () => {
     component.ngOnInit();
 
     expect(component.latestResultsArray).toEqual(['W', 'W']);
+  })
+
+  afterAll(() => {
+    expect(gameServiceMock.getGamesByTeamPerDates).toHaveBeenCalledOnceWith([1], 12);
   })
 });
