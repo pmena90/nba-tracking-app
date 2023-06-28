@@ -23,12 +23,8 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-      npm install -g @angular/cli
-      npm ci
-    displayName: 'Install Angular CLI and project dependencies'
-
-    - script: |
-        ng build --configuration=production
+        npm install
+        npm run build --prod
       displayName: 'Build Angular app'
 
     - task: ArchiveFiles@2
