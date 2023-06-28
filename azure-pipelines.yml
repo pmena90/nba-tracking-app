@@ -24,13 +24,13 @@ stages:
 
     - script: |
         npm install
-        npm run build -- --prod
+        ng build --configuration=production
       displayName: 'Build Angular app'
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)/nba-tracking-app/dist/nba-tracking-app'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/nba-tracking-app'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
