@@ -63,3 +63,4 @@ stages:
               appType: 'webAppLinux'
               appName: 'nba-tracking-app'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              startUpCommand: 'npm start'
