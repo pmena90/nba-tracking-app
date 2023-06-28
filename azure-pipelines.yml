@@ -62,4 +62,4 @@ stages:
               azureSubscription: 'Visual Studio Enterprise Subscription(8a492d1a-7c52-4257-a559-a0787afd1321)'
               appType: 'webAppLinux'
               appName: 'nba-tracking-app'
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              package: '$(Build.ArtifactStagingDirectory)/drop/**/*.zip'
