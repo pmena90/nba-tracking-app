@@ -28,6 +28,10 @@ stages:
 
     - script: |
         npm install
+        npm run test
+      displayName: 'Test Angular app'
+
+    - script:
         npm run build --prod
       displayName: 'Build Angular app'
 
@@ -45,19 +49,6 @@ stages:
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         artifactName: 'drop'
-
-- stage: Test
-  displayName: Run Tests
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-    - job: Test
-      displayName: Run Tests
-      pool:
-        vmImage: 'ubuntu-latest'
-      steps:
-        - script:
-            npm run test
     
 - stage: Deploy
   displayName: Deploy to Azure Web App
