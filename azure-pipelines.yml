@@ -38,6 +38,11 @@ stages:
         export CHROME_BIN=/usr/bin/chromium-browser
         npm run test-single-run
       displayName: 'Run Tests'
+    
+    # Cleanup step to terminate any remaining processes
+    - script: |
+        pkill chrome
+      displayName: 'Cleanup Test Environment'
 
     - script:
         npm run build --prod
