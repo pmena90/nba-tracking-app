@@ -26,10 +26,18 @@ stages:
         versionSpec: '16.x'
       displayName: 'Install Node.js'
 
-    - script: |
+    - script:
         npm install
+      displayName: 'Install Angular dependencies'
+    
+    - script: |
+        npm install -g karma-cli
+        npm install -g chromedriver
+        apt-get update
+        apt-get install -y chromium-browser
+        export CHROME_BIN=/usr/bin/chromium-browser
         npm run test
-      displayName: 'Test Angular app'
+      displayName: 'Run Tests'
 
     - script:
         npm run build --prod
