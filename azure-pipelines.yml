@@ -36,7 +36,7 @@ stages:
         apt-get update
         apt-get install -y chromium-browser
         export CHROME_BIN=/usr/bin/chromium-browser
-        karma start karma.conf.js --browsers=ChromeHeadless --single-run
+        npm run test-single-run
       displayName: 'Run Tests'
 
     - script:
