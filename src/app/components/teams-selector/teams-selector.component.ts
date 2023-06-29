@@ -9,6 +9,9 @@ import { TeamsService } from 'src/app/services';
   templateUrl: './teams-selector.component.html',
   styleUrls: ['./teams-selector.component.css']
 })
+
+
+
 export class TeamsSelectorComponent implements OnInit, AfterViewInit {
   conferences: string[] = Object.keys(ConferenceEnum);
   eastDivisions: string[] = Object.keys(EastDivisionEnum);

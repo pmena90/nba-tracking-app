@@ -41,7 +41,7 @@ export class TeamsService {
       map(result => result.data ? result.data : []),
       map(data => data.map(team => ({
         ...team,
-        img: this.imgBaseUrl + team.abbreviation + '.png'
+        img: team.abbreviation == '' ? '' : this.imgBaseUrl + team.abbreviation + '.png'
       } as Team))),
       catchError(err => {
         this.handleError(err);
