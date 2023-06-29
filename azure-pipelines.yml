@@ -31,11 +31,11 @@ stages:
       displayName: 'Install Angular dependencies'
     
     - script: |
-        npm install -g karma-cli
-        npm install -g chromedriver
-        apt-get update
-        apt-get install -y chromium-browser
-        export CHROME_BIN=/usr/bin/chromium-browser
+        sudo apt-get update
+        sudo apt-get install google-chrome-stable
+      displayName: 'Install Google Chrome for tests'
+    
+    - script: |
         npm run test-single-run
       displayName: 'Run Tests'
     
@@ -44,7 +44,7 @@ stages:
         pkill chrome
       displayName: 'Cleanup Test Environment'
 
-    - script:
+    - script: |
         npm run build --prod
       displayName: 'Build Angular app'
 
