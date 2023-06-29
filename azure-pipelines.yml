@@ -6,7 +6,7 @@
 
 variables:
   - name: azureSubscription
-    value: Visual Studio Enterprise Subscription(8a492d1a-7c52-4257-a559-a0787afd1321)
+    value: 'Visual Studio Enterprise Subscription(8a492d1a-7c52-4257-a559-a0787afd1321)'
 
 trigger:
 - main
