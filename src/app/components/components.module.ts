@@ -10,8 +10,6 @@ import { TeamDivisionPipe } from '../pipes/team-division.pipe';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { LastDaysSelectComponent } from './last-days-select/last-days-select.component';
 
-
-
 @NgModule({
   declarations: [
     TeamsSelectorComponent,

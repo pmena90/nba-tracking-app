@@ -1,4 +1,6 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { LastDaysSelectComponent } from './last-days-select.component';
 
@@ -8,9 +10,10 @@ describe('LastDaysSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LastDaysSelectComponent ]
+      declarations: [LastDaysSelectComponent],
+      imports: [ReactiveFormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

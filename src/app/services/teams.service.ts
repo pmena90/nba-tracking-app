@@ -32,14 +32,16 @@ export class TeamsService {
 
   constructor(private http: HttpService) { }
 
-  getTeams(): Observable<Team[]> {
+  teams$ = this.getTeams();
+
+  private getTeams(): Observable<Team[]> {
     const apiUrl = `${this.apiUrl}/teams`;
 
     return this.http.get<IResponse<Team[]>>(apiUrl).pipe(
       map(result => result.data ? result.data : []),
       map(data => data.map(team => ({
         ...team,
-        img: this.imgBaseUrl + team.abbreviation + '.png'
+        img: team.abbreviation == '' ? '' : this.imgBaseUrl + team.abbreviation + '.png'
       } as Team))),
       catchError(err => {
         this.handleError(err);
@@ -72,7 +74,7 @@ export class TeamsService {
 
 
   trackedTeams$ = combineLatest([
-    this.getTeams(),
+    this.teams$,
     this.teamSelectedStream$
   ]).pipe(
     map(([teams, op]) => {
@@ -95,7 +97,7 @@ export class TeamsService {
   );
 
   filteredTeams$ = combineLatest([
-    this.getTeams(),
+    this.teams$,
     this.changeSelectedConferenceStream$,
     this.changeSelectedDivisionStream$
   ]).pipe(
