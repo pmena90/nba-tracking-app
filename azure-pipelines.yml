@@ -34,8 +34,7 @@ stages:
         npm install -g karma-cli
         npm install -g chromedriver
         apt-get update
-        apt-get install -y chromium-browser
-        export CHROME_BIN=/usr/bin/chromium-browser
+        apt-get install google-chrome-stable
         npm run test-single-run
       displayName: 'Run Tests'
     
