@@ -35,7 +35,7 @@ stages:
         apt-get install google-chrome-stable
       displayName: 'Install Google Chrome for tests'
     
-     - script: 
+    - script: |
         npm run test-single-run
       displayName: 'Run Tests'
     
@@ -44,7 +44,7 @@ stages:
         pkill chrome
       displayName: 'Cleanup Test Environment'
 
-    - script:
+    - script: |
         npm run build --prod
       displayName: 'Build Angular app'
 
