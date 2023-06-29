@@ -62,6 +62,7 @@ describe('TeamResolver', () => {
       })
     };
     TestBed.overrideProvider(ActivatedRouteSnapshot, { useValue: activatedRouteSpy });
+    resolver = TestBed.inject(TeamResolver);
 
     expect(resolver).toBeTruthy();
   });
@@ -89,6 +90,7 @@ describe('TeamResolver', () => {
     };
     TestBed.overrideProvider(ActivatedRouteSnapshot, { useValue: activatedRouteSpy });
     routerMock = TestBed.inject(ActivatedRouteSnapshot);
+    resolver = TestBed.inject(TeamResolver);
 
     resolver.resolve(routerMock).subscribe(
       team => expect(team).toEqual(null)
