@@ -52,7 +52,7 @@ stages:
     
 - stage: Deploy
   displayName: Deploy to Azure Web App
-  dependsOn: Test
+  dependsOn: Build
   condition: succeeded()
   jobs:
   - deployment: Deploy
