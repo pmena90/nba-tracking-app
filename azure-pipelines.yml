@@ -39,6 +39,12 @@ stages:
         npm run test-single-run
       displayName: 'Run Tests'
 
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/nba-tracking-app/coverage.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/nba-tracking-app'
+
     - script: |
         npm run build --prod
       displayName: 'Build Angular app'
