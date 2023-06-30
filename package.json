@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test-single-run": "ng test --browsers=ChromeHeadless --progress --watch=false",
+    "test-single-run": "ng test --browsers=ChromeHeadless --progress --watch=false --code-coverage",
     "lint": "ng lint"
   },
   "private": true,
