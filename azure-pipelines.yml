@@ -39,6 +39,12 @@ stages:
         npm run test-single-run
       displayName: 'Run Tests'
 
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/junit-report.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)/coverage/nba-tracking-app'
+
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'Cobertura'
