@@ -9,6 +9,7 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
+      require('karma-junit-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
@@ -33,7 +34,12 @@ module.exports = function (config) {
         { type: 'cobertura', file: 'coverage.xml' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml', 'junit'],
+    junitReporter: {
+      outputDir: 'coverage/nba-tracking-app', // Output directory for the XML report
+      outputFile: 'junit-report.xml', // Output file name
+      useBrowserName: false // Set to true if you want to include browser name in the report file name
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
