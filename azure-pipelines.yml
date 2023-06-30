@@ -2,11 +2,8 @@
 # Build a Node.js project that uses Angular.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
-
 variables:
-  - name: azureSubscription
-    value: 'Visual Studio Enterprise Subscription(1)(8a492d1a-7c52-4257-a559-a0787afd1321)'
+  - group: nba-tracking-app
 
 trigger:
 - main
@@ -43,13 +40,13 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/junit-report.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/coverage/nba-tracking-app'
+        searchFolder: '$(System.DefaultWorkingDirectory)/$(projectTestCoverageFolder)'
 
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'Cobertura'
-        summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/nba-tracking-app/coverage.xml'
-        reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/nba-tracking-app'
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/$(projectTestCoverageFolder)/coverage.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/$(projectTestCoverageFolder)'
 
     - script: |
         npm run build --prod
