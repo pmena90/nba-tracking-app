@@ -35,6 +35,10 @@ stages:
     - script: |
         npm run test-single-run
       displayName: 'Run Tests'
+    
+    - script: |
+        npm run lint
+      displayName: 'Run Lint Check'
 
     - task: PublishTestResults@2
       inputs:
@@ -70,7 +74,8 @@ stages:
 - stage: Deploy
   displayName: Deploy to Azure Web App
   dependsOn: Build
-  condition: succeeded()
+  # condition: succeeded()
+  condition: "false"
   jobs:
   - deployment: Deploy
     displayName: Deploy to Azure Web App
